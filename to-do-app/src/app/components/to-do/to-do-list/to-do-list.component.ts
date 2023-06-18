@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Product } from '../../../api/product';
-import { ProductService } from '../../../service/product.service';
+import { Todo } from 'src/app/api/todo';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -9,14 +8,14 @@ import { Subscription } from 'rxjs';
 })
 export class ToDoListComponent implements OnInit, OnDestroy {
 
-    products!: Product[];
+    todos!: Todo[];
 
     subscription!: Subscription;
 
-    constructor(private productService: ProductService) {}
+    constructor() {}
 
     ngOnInit() {
-        this.productService.getProductsSmall().then(data => this.products = data);
+        
     }
 
     ngOnDestroy() {
