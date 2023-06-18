@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Todo } from 'src/app/api/todo';
 import { Subscription } from 'rxjs';
 import { TodoService } from 'src/app/service/todo.service';
 import { MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-to-do-list',
@@ -13,6 +14,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     todos!: Todo[];
     subscriptions: Subscription[] = [];
     errMsg!: string;
+    @ViewChild(Table) table!: Table;
 
     constructor(private todoService: TodoService, private messageService: MessageService) {}
 
@@ -47,7 +49,16 @@ export class ToDoListComponent implements OnInit, OnDestroy {
       this.subscriptions.push(this.todoService.updateStatus(todo).subscribe({
         next: () => this.show(todo.complete),
         error: (error) => this.errMsg = error
-      }));  
+      }));
+      
+      // trigger table re-sort
+      this.table.sort({
+        field: 'complete',
+        order: 1
+      });
+
+      // remove toggling of sort column
+      this.table.reset();
     }
 
     show(state: boolean) {
