@@ -43,7 +43,8 @@
                             <p-tag [styleClass]="'priority ' + getPriorityClass(todo.priority)">{{ todo.priority | uppercase}}</p-tag>
                         </td>
                         <td style="width: 15%;">
-                            <button pButton pRipple type="button" icon="pi pi-search" class="p-button p-component p-button-text p-button-icon-only"></button>
+                            <button pButton pRipple type="button" icon="pi pi-search" class="p-button p-component p-button-text p-button-icon-only"
+                            [routerLink]="['/edit', todo.id]"></button>                           
                         </td>
                     </tr>
                 </ng-template>
