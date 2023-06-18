@@ -60,7 +60,7 @@
                         <td style="width: 15%;">
                             <p-button icon="pi pi-search"
                                       styleClass="p-button-rounded p-button-info p-button-text"
-                                      [routerLink]="['/edit', todo.id]">
+                                      (onClick)="editTodo(todo.id)">
                             </p-button>                           
                         </td>
                     </tr>

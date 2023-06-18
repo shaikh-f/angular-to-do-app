@@ -6,6 +6,7 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { CheckboxModule } from 'primeng/checkbox';
 import { StyleClassModule } from 'primeng/styleclass';
 import { InputTextModule } from 'primeng/inputtext';
@@ -29,6 +30,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     TableModule,
     ReactiveFormsModule,
+    DynamicDialogModule,
     TagModule,
     ToastModule,
     ButtonModule,
@@ -38,6 +40,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     InMemoryWebApiModule.forRoot(ToDoData),
     ToDoRoutingModule
   ],
-  providers: [TodoService, MessageService]
+  providers: [TodoService, MessageService, DialogService]
 })
 export class ToDoModule { }

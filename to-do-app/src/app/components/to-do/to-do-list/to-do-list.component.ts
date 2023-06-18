@@ -5,7 +5,8 @@ import { TodoService } from 'src/app/service/todo.service';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { error } from 'console';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ToDoEditComponent } from '../to-do-edit/to-do-edit.component';
 
 @Component({
   selector: 'app-to-do-list',
@@ -14,12 +15,14 @@ import { error } from 'console';
 export class ToDoListComponent implements OnInit, OnDestroy {
 
     todos!: Todo[];
+    ref: DynamicDialogRef | undefined;
     subscriptions: Subscription[] = [];
     errMsg!: string;
     todoForm!: FormGroup;
     @ViewChild(Table) table!: Table;
 
     constructor(private todoService: TodoService,
+                public dialogService: DialogService,
                 private messageService: MessageService,
                 private fBuilder: FormBuilder) {}
 
@@ -54,6 +57,10 @@ export class ToDoListComponent implements OnInit, OnDestroy {
         this.subscriptions.forEach(
           (subscription) => subscription.unsubscribe() 
         );
+
+        if (this.ref) {
+          this.ref.close();
+        }
     }
 
     getPriorityClass(priority: string): string {
@@ -106,4 +113,23 @@ export class ToDoListComponent implements OnInit, OnDestroy {
         this.messageService.add({ severity: 'info', summary: 'Update', detail: 'The todo has been successfully added.' });
       }
     }
+
+    editTodo(todoId: number) {
+      this.ref = this.dialogService.open(ToDoEditComponent, {
+        header: 'Edit the Todo',
+        width: '70%',
+        contentStyle: { overflow: 'auto' },
+        baseZIndex: 10000,
+        maximizable: true,
+        data: {
+          todoId: todoId
+        }
+      });
+
+      this.ref.onClose.subscribe();
+
+      this.ref.onMaximize.subscribe((value) => {
+          this.messageService.add({ severity: 'info', summary: 'Maximized', detail: `maximized: ${value.maximized}` });
+      });
+  }
 }
