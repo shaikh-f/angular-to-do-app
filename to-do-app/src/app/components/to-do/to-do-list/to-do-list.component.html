@@ -20,6 +20,7 @@
 
     <div class="col-12 xl:col-6" style="margin: auto;">
         <div class="card">
+            <p-toast></p-toast>
             <h5>ToDos</h5>
             <p-table [value]="todos" [paginator]="true" [rows]="5" responsiveLayout="scroll" sortField="complete" [sortOrder]="1">
                 <ng-template pTemplate="header">

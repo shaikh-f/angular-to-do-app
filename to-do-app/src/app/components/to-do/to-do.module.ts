@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
+import { ToastModule } from 'primeng/toast';
 import { CheckboxModule } from 'primeng/checkbox';
 import { StyleClassModule } from 'primeng/styleclass';
 import { InputTextModule } from 'primeng/inputtext';
@@ -13,6 +14,7 @@ import { ToDoListComponent } from './to-do-list/to-do-list.component';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ToDoData } from './to-do-data';
 import { TodoService } from 'src/app/service/todo.service';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { TodoService } from 'src/app/service/todo.service';
     HttpClientModule,
     TableModule,
     TagModule,
+    ToastModule,
     ButtonModule,
     CheckboxModule,
     StyleClassModule,
@@ -31,6 +34,6 @@ import { TodoService } from 'src/app/service/todo.service';
     InMemoryWebApiModule.forRoot(ToDoData),
     ToDoRoutingModule
   ],
-  providers: [TodoService]
+  providers: [TodoService, MessageService]
 })
 export class ToDoModule { }

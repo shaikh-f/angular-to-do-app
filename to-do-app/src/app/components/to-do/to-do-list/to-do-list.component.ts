@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Todo } from 'src/app/api/todo';
 import { Subscription } from 'rxjs';
 import { TodoService } from 'src/app/service/todo.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-to-do-list',
@@ -13,7 +14,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     subscriptions: Subscription[] = [];
     errMsg!: string;
 
-    constructor(private todoService: TodoService) {}
+    constructor(private todoService: TodoService, private messageService: MessageService) {}
 
     ngOnInit(): void {
         // load up all the todos
@@ -44,8 +45,16 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     
     updateStatus(todo: Todo): void {
       this.subscriptions.push(this.todoService.updateStatus(todo).subscribe({
-        next: () => console.log("Done"),
+        next: () => this.show(todo.complete),
         error: (error) => this.errMsg = error
       }));  
+    }
+
+    show(state: boolean) {
+      if (state) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Todo completed!' });
+      } else {
+        this.messageService.add({ severity: 'info', summary: 'Update', detail: 'The todo has been successfully updated.' });
+      }
     }
 }
