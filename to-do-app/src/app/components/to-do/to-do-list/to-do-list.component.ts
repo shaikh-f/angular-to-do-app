@@ -114,7 +114,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
       }
     }
 
-    editTodo(todoId: number) {
+    editTodo(todo: Todo) {
       this.ref = this.dialogService.open(ToDoEditComponent, {
         header: 'Edit the Todo',
         width: '70%',
@@ -122,7 +122,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
         baseZIndex: 10000,
         maximizable: true,
         data: {
-          todoId: todoId
+          todo: todo
         }
       });
 

@@ -16,7 +16,14 @@ export class ToDoEditComponent implements OnInit{
 
   
   ngOnInit(): void {
-    const todoId = this.config.data.todoId;
+    // extract the todo
+    this.todo = this.config.data.todo;
+
+    console.log(`This is ${JSON.stringify(this.todo)}`)
+  }
+
+  updateToDo() {
+    
   }
 
 }

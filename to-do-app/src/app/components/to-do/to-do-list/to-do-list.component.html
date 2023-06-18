@@ -6,9 +6,9 @@
                 <form novalidate
                       (ngSubmit)="addTodo()"
                       [formGroup]="todoForm">
-                    <div class="flex justify-content-between">
-                        <div class="flex items-center w-full">
-                        <span class="p-float-label p-input-icon-left" style="width: 89%;">
+                      <div class="flex justify-content-between" style="width: 100%;">
+                        <!-- <div class="flex items-center w-full"> -->
+                        <span class="p-float-label p-input-icon-left" style="flex-grow: 1;">
                             <i class="pi pi-check-square"></i>
                             <input type="text"
                                     id="newTodo"
@@ -26,7 +26,7 @@
                                   [title]="todoForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
                                   [disabled]="!todoForm.valid">
                         </p-button>
-                        </div>
+                        <!-- </div> -->
                     </div>
                 </form>
             </div>
@@ -60,7 +60,7 @@
                         <td style="width: 15%;">
                             <p-button icon="pi pi-search"
                                       styleClass="p-button-rounded p-button-info p-button-text"
-                                      (onClick)="editTodo(todo.id)">
+                                      (onClick)="editTodo(todo)">
                             </p-button>                           
                         </td>
                     </tr>
