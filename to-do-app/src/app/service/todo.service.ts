@@ -38,7 +38,7 @@ export class TodoService {
     
     return this.http.post<Todo>(this.todoUrl, todo, { headers })
       .pipe(
-        tap(data => console.log('createProduct: ' + JSON.stringify(data))),
+        tap(data => console.log('createToDo: ' + JSON.stringify(data))),
         catchError(this.handleError)
       );
   }
