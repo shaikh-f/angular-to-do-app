@@ -16,7 +16,7 @@ export class ToDoData implements InMemoryDbService {
             id: 1,
             title: "Complete project 1",
             description: "Finish the task before the deadline",
-            complete: false,
+            complete: true,
             priority: "High",
           },
           {
@@ -65,7 +65,7 @@ export class ToDoData implements InMemoryDbService {
             id: 8,
             title: "Pay bills",
             description: "Settle electricity, water, and internet bills",
-            complete: false,
+            complete: true,
             priority: "Medium",
           },
           {
@@ -79,7 +79,7 @@ export class ToDoData implements InMemoryDbService {
             id: 10,
             title: "Prepare dinner",
             description: "Cook a delicious meal for the family",
-            complete: false,
+            complete: true,
             priority: "Medium",
           },
           {
@@ -93,7 +93,7 @@ export class ToDoData implements InMemoryDbService {
             id: 12,
             title: "Go to the gym",
             description: "Workout for an hour at the fitness center",
-            complete: false,
+            complete: true,
             priority: "Medium",
           },
           {

@@ -1,3 +1,19 @@
+.priority {
+    width: 60px; /* Adjust the width as needed */
+    height: 20px;
+}
+
+.high-priority {
+    background: red; 
+}
+
+.medium-priority {
+    background:  #ffc107;
+}
+
+.low-priority {
+    background: green;
+}
 .completed {
     text-decoration: line-through;
   }

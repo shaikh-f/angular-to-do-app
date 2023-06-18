@@ -10,7 +10,6 @@ import { TodoService } from 'src/app/service/todo.service';
 export class ToDoListComponent implements OnInit, OnDestroy {
 
     todos!: Todo[];
-    pageTitle: string = '';
     subscription!: Subscription;
     errMsg!: string;
 
@@ -29,4 +28,17 @@ export class ToDoListComponent implements OnInit, OnDestroy {
             this.subscription.unsubscribe();
         }
     }
+
+    getPriorityClass(priority: string): string {
+        switch (priority) {
+            case 'High':
+              return 'high-priority';
+            case 'Medium':
+              return 'medium-priority';
+            case 'Low':
+              return 'low-priority';
+            default:
+              return '';
+        }
+    }    
 }

@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
+import { CheckboxModule } from 'primeng/checkbox';
 import { StyleClassModule } from 'primeng/styleclass';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToDoRoutingModule } from './to-do-routing.module';
@@ -21,7 +23,9 @@ import { TodoService } from 'src/app/service/todo.service';
     FormsModule,
     HttpClientModule,
     TableModule,
+    TagModule,
     ButtonModule,
+    CheckboxModule,
     StyleClassModule,
     InputTextModule,
     InMemoryWebApiModule.forRoot(ToDoData),
