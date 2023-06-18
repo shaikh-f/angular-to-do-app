@@ -32,6 +32,17 @@ export class TodoService {
       );
   }
 
+  createTodo(todo: Todo): Observable<Todo> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    todo.id = null;
+    
+    return this.http.post<Todo>(this.todoUrl, todo, { headers })
+      .pipe(
+        tap(data => console.log('createProduct: ' + JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
   private handleError(err: HttpErrorResponse): Observable<never> {
     let errorMessage = '';
     
