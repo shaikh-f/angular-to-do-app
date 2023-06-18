@@ -15,10 +15,12 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ToDoData } from './to-do-data';
 import { TodoService } from 'src/app/service/todo.service';
 import { MessageService } from 'primeng/api';
+import { ToDoEditComponent } from './to-do-edit/to-do-edit.component';
 
 @NgModule({
   declarations: [
-    ToDoListComponent
+    ToDoListComponent,
+    ToDoEditComponent
   ],
   imports: [
     CommonModule,
