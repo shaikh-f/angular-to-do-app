@@ -4,7 +4,13 @@ import { Todo } from 'src/app/api/todo';
 
 export class ToDoData implements InMemoryDbService {
 
-  createDb(): { todos: Todo[]} {
+  constructor() {
+    console.log("in constructor");
+  }
+
+  createDb() {
+    console.log("Hello World");
+    
     const todos: Todo[] = [
         {
             id: 1,

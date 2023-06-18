@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToDoRoutingModule } from './to-do-routing.module';
 import { ToDoListComponent } from './to-do-list/to-do-list.component';
-import { ProductService } from '../../service/product.service';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { ToDoData } from './to-do-data';
+import { TodoService } from 'src/app/service/todo.service';
 
 @NgModule({
   declarations: [
@@ -16,12 +19,14 @@ import { ProductService } from '../../service/product.service';
   imports: [
     CommonModule,
     FormsModule,
+    HttpClientModule,
     TableModule,
     ButtonModule,
     StyleClassModule,
     InputTextModule,
+    InMemoryWebApiModule.forRoot(ToDoData),
     ToDoRoutingModule
   ],
-  providers: [ProductService]
+  providers: [TodoService]
 })
 export class ToDoModule { }
