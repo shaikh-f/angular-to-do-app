@@ -9,7 +9,7 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
             {
                 path: '', component: AppLayoutComponent,
                 children: [
-                    { path: '', loadChildren: () => import('./components/dashboard/dashboard.module').then(m => m.DashboardModule) }
+                    { path: '', loadChildren: () => import('./components/to-do/to-do.module').then(m => m.ToDoModule) }
                 ]
             },
             { path: '**', component: NotfoundComponent },
