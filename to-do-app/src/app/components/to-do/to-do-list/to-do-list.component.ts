@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { TodoService } from 'src/app/service/todo.service';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-to-do-list',
@@ -14,11 +15,19 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     todos!: Todo[];
     subscriptions: Subscription[] = [];
     errMsg!: string;
+    todoForm!: FormGroup;
     @ViewChild(Table) table!: Table;
 
-    constructor(private todoService: TodoService, private messageService: MessageService) {}
+    constructor(private todoService: TodoService,
+                private messageService: MessageService,
+                private fBuilder: FormBuilder) {}
 
     ngOnInit(): void {
+        // construct the addition form
+        this.todoForm = this.fBuilder.group({
+          title: ['', [Validators.required]]
+        });
+
         // load up all the todos
         this.subscriptions.push(this.todoService.getTodos().subscribe({
             next: todos => this.todos = todos,
@@ -67,5 +76,9 @@ export class ToDoListComponent implements OnInit, OnDestroy {
       } else {
         this.messageService.add({ severity: 'info', summary: 'Update', detail: 'The todo has been successfully updated.' });
       }
+    }
+
+    addTodo() {
+      console.log("Adding new todo");
     }
 }

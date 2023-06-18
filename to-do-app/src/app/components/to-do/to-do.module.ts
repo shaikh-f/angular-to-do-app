@@ -16,6 +16,7 @@ import { ToDoData } from './to-do-data';
 import { TodoService } from 'src/app/service/todo.service';
 import { MessageService } from 'primeng/api';
 import { ToDoEditComponent } from './to-do-edit/to-do-edit.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ToDoEditComponent } from './to-do-edit/to-do-edit.component';
     FormsModule,
     HttpClientModule,
     TableModule,
+    ReactiveFormsModule,
     TagModule,
     ToastModule,
     ButtonModule,
