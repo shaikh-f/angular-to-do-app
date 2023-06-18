@@ -1,6 +1,6 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { Todo } from '../api/todo';
 
 @Injectable()
@@ -14,6 +14,20 @@ export class TodoService {
     return this.http.get<Todo[]>(this.todoUrl)
       .pipe(
         tap(data => console.log(JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  updateStatus(todo: Todo): Observable<Todo>{
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.todoUrl}/${todo.id}`;
+    
+    // we use the headers object to configure the options object (third arg. in the put request below)
+    return this.http.put<Todo>(url, todo, { headers })
+      .pipe(
+        tap(() => console.log('updateProduct: ' + todo.id)),
+        // Return the product on an update
+        map(() => todo),
         catchError(this.handleError)
       );
   }

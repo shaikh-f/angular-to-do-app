@@ -33,7 +33,7 @@
                 <ng-template pTemplate="body" let-todo>
                     <tr>
                         <td style="width: 15%; min-width: 5rem;">
-                            <p-checkbox [binary]="true" [inputId]="'binary_' + todo.id" [(ngModel)]="todo.complete"></p-checkbox>
+                            <p-checkbox [binary]="true" [inputId]="'binary_' + todo.id" [(ngModel)]="todo.complete" (onChange)="updateStatus(todo)"></p-checkbox>
                         </td>
                         <td class="hide-overflow-text" style="width: 35%; min-width: 7rem;">
                             <label [ngClass]="{'completed': todo.complete}">{{ todo.title }}</label>

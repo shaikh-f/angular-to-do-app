@@ -10,23 +10,23 @@ import { TodoService } from 'src/app/service/todo.service';
 export class ToDoListComponent implements OnInit, OnDestroy {
 
     todos!: Todo[];
-    subscription!: Subscription;
+    subscriptions: Subscription[] = [];
     errMsg!: string;
 
     constructor(private todoService: TodoService) {}
 
     ngOnInit(): void {
         // load up all the todos
-        this.subscription = this.todoService.getTodos().subscribe({
+        this.subscriptions.push(this.todoService.getTodos().subscribe({
             next: todos => this.todos = todos,
             error: err => this.errMsg = err
-        });    
+        }));    
     }
 
     ngOnDestroy(): void {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
+        this.subscriptions.forEach(
+          (subscription) => subscription.unsubscribe() 
+        );
     }
 
     getPriorityClass(priority: string): string {
@@ -40,5 +40,12 @@ export class ToDoListComponent implements OnInit, OnDestroy {
             default:
               return '';
         }
-    }    
+    }
+    
+    updateStatus(todo: Todo): void {
+      this.subscriptions.push(this.todoService.updateStatus(todo).subscribe({
+        next: () => console.log("Done"),
+        error: (error) => this.errMsg = error
+      }));  
+    }
 }
