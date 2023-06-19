@@ -54,7 +54,7 @@ export class TodoService {
       .pipe(
         tap(() => console.log('Updated Todo: ' + todo.id)),
         // Return the product on an update
-        map(() => todo),
+        map((data) => data),
         catchError(this.handleError)
     );
   }
@@ -65,7 +65,7 @@ export class TodoService {
 
     return this.http.delete<Todo>(url, { headers })
       .pipe(
-        tap(data => console.log('ToDo deleted ' + id)),
+        tap(() => console.log('ToDo deleted ' + id)),
         catchError(this.handleError)
       );
   }

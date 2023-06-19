@@ -99,23 +99,15 @@ export class ToDoListComponent implements OnInit, OnDestroy {
       
       this.subscriptions.push(this.todoService.createTodo(todo).subscribe({
         next: (response) => {
-          this.show('add');
           this.todoForm.reset();
           this.todos.push(response);
+          this.show('add');
         },
         error: (error) => this.errMsg = error
       }));
     }
 
-    show(state?: string | HttpErrorResponse) {
-      if (typeof(state) ==  'string') {
-        this.handleMessage(state);
-      } else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${state?.error.message}.` });
-      }
-    }
-
-    handleMessage(state: string): void {
+    show(state?: string) {
       switch (state) {
         case 'updated':
         case 'deleted':
@@ -125,10 +117,29 @@ export class ToDoListComponent implements OnInit, OnDestroy {
         case 'add':
           this.messageService.add({ severity: 'success', summary: 'Success', detail: `The todo has been successfully ${state}.` });
           break;
+        default:
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${state}.` });
       }
     }
 
-    editTodo(todo: Todo) {
+    localUpdate(action: string, val: any): void {
+      if (action === "updated") {
+        this.todos.forEach((todo, index) => {
+          if (todo.id === val.id) {
+            this.todos[index] = val;
+          }  
+        });
+      } else {
+        // delete thus, remove
+        const ix = this.todos.findIndex(todo => todo.id === val);
+        
+        if (ix !== -1) {
+          this.todos.splice(ix, 1);
+        }
+      }
+    }
+
+    editTodo(todo: Todo): void {
       this.ref = this.dialogService.open(ToDoEditComponent, {
         header: 'Edit the Todo',
         width: '70%',
@@ -140,14 +151,18 @@ export class ToDoListComponent implements OnInit, OnDestroy {
         }
       });
 
-      this.subscriptions.push(this.ref.onClose.subscribe((response: string | HttpErrorResponse) => {
-          if (response) {
-            this.show(response);
-          }
+      this.subscriptions.push(this.ref.onClose.subscribe((response: [string, Todo | number] | string) => {
+        if (typeof response !== "string") {
+          this.localUpdate(...response);
+          response = response[0];
+        }
+
+        this.show(response);
+
       }));
 
       this.ref.onMaximize.subscribe((value) => {
-          this.messageService.add({ severity: 'info', summary: 'Maximized', detail: `maximized: ${value.maximized}` });
+        this.messageService.add({ severity: 'info', summary: 'Maximized', detail: `maximized: ${value.maximized}` });
       });
     }
 }
