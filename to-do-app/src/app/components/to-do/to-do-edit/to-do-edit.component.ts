@@ -60,14 +60,14 @@ export class ToDoEditComponent implements OnInit, OnDestroy{
 
     // make the PUT request
     this.subscriptions.push(this.todoService.updateTodo(newTodo).subscribe({
-      next: () => this.ref.close(['updated', newTodo]),
+      next: () => this.ref.close('updated'),
       error: (error) => this.ref.close(error.error.message)
     }));
   }
 
   deleteTodo() {
     this.subscriptions.push(this.todoService.deleteTodo(this.todo.id).subscribe({
-      next: () => this.ref.close(['deleted', this.todo.id]),
+      next: () => this.ref.close('deleted'),
       error: (error) => this.ref.close(error.error.message)
     }));
   }

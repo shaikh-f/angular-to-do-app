@@ -13,7 +13,6 @@ export class TodoService {
   getTodos(): Observable<Todo[]> {
     return this.http.get<Todo[]>(this.todoUrl)
       .pipe(
-        tap(data => console.log(JSON.stringify(data))),
         catchError(this.handleError)
       );
   }
@@ -25,9 +24,6 @@ export class TodoService {
     // we use the headers object to configure the options object (third arg. in the put request below)
     return this.http.put<Todo>(url, todo, { headers })
       .pipe(
-        tap(() => console.log('Toggled completion status: ' + todo.id)),
-        // Return the product on an update
-        map(() => todo),
         catchError(this.handleError)
       );
   }
@@ -38,9 +34,7 @@ export class TodoService {
     
     return this.http.post<Todo>(this.todoUrl, todo, { headers })
       .pipe(
-        tap(data => console.log('createToDo: ' + JSON.stringify(data))),
-        // Return the product on an update
-        map((data) => data),
+        tap(data => console.log(`Created Todo: ${data}`)),
         catchError(this.handleError)
       );
   }

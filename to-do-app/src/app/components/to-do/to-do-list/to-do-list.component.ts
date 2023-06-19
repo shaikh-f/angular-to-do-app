@@ -18,7 +18,6 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     todos!: Todo[];
     ref: DynamicDialogRef | undefined;
     subscriptions: Subscription[] = [];
-    errMsg!: string;
     todoForm!: FormGroup;
     @ViewChild(Table) table!: Table;
 
@@ -41,7 +40,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
       // load up all the todos
       this.subscriptions.push(this.todoService.getTodos().subscribe({
         next: todos => this.todos = todos,
-        error: err => this.errMsg = err
+        error: error => this.show(error)
       }));    
     }
 
@@ -80,17 +79,8 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     updateStatus(todo: Todo): void {
       this.subscriptions.push(this.todoService.updateStatus(todo).subscribe({
         next: () => this.show('toggled'),
-        error: (error) => this.errMsg = error
+        error: (error) => this.show(error)
       }));
-      
-      // trigger table re-sort
-      this.table.sort({
-        field: 'complete',
-        order: 1
-      });
-
-      // remove toggling of sort column
-      this.table.reset();
     }
 
     addTodo() {
@@ -98,16 +88,16 @@ export class ToDoListComponent implements OnInit, OnDestroy {
       const todo = {...this._initializeTodo(), ...this.todoForm.value};
       
       this.subscriptions.push(this.todoService.createTodo(todo).subscribe({
-        next: (response) => {
+        next: () => {
           this.todoForm.reset();
-          this.todos.push(response);
+          this.fetchTodos();
           this.show('add');
         },
-        error: (error) => this.errMsg = error
+        error: (error) => this.show(error.error.message)
       }));
     }
 
-    show(state?: string) {
+    show(state: string) {
       switch (state) {
         case 'updated':
         case 'deleted':
@@ -119,23 +109,6 @@ export class ToDoListComponent implements OnInit, OnDestroy {
           break;
         default:
           this.messageService.add({ severity: 'error', summary: 'Error', detail: `${state}.` });
-      }
-    }
-
-    localUpdate(action: string, val: any): void {
-      if (action === "updated") {
-        this.todos.forEach((todo, index) => {
-          if (todo.id === val.id) {
-            this.todos[index] = val;
-          }  
-        });
-      } else {
-        // delete thus, remove
-        const ix = this.todos.findIndex(todo => todo.id === val);
-        
-        if (ix !== -1) {
-          this.todos.splice(ix, 1);
-        }
       }
     }
 
@@ -151,14 +124,11 @@ export class ToDoListComponent implements OnInit, OnDestroy {
         }
       });
 
-      this.subscriptions.push(this.ref.onClose.subscribe((response: [string, Todo | number] | string) => {
-        if (typeof response !== "string") {
-          this.localUpdate(...response);
-          response = response[0];
+      this.subscriptions.push(this.ref.onClose.subscribe((response: string) => {
+        if (response) {
+          this.fetchTodos();
+          this.show(response);
         }
-
-        this.show(response);
-
       }));
 
       this.ref.onMaximize.subscribe((value) => {
