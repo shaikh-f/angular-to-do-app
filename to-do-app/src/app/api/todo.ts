@@ -5,8 +5,3 @@ export interface Todo {
     complete?: boolean
     priority?: string
 }
-
-export interface Priority {
-    name: string,
-    code: string
-}

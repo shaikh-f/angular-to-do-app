@@ -25,7 +25,7 @@ export class TodoService {
     // we use the headers object to configure the options object (third arg. in the put request below)
     return this.http.put<Todo>(url, todo, { headers })
       .pipe(
-        tap(() => console.log('updateProduct: ' + todo.id)),
+        tap(() => console.log('Toggled completion status: ' + todo.id)),
         // Return the product on an update
         map(() => todo),
         catchError(this.handleError)
@@ -39,9 +39,37 @@ export class TodoService {
     return this.http.post<Todo>(this.todoUrl, todo, { headers })
       .pipe(
         tap(data => console.log('createToDo: ' + JSON.stringify(data))),
+        // Return the product on an update
+        map((data) => data),
         catchError(this.handleError)
       );
   }
+
+  updateTodo(todo: Todo): Observable<Todo> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.todoUrl}/${todo.id}`;
+    
+    // we use the headers object to configure the options object (third arg. in the put request below)
+    return this.http.put<Todo>(url, todo, { headers })
+      .pipe(
+        tap(() => console.log('Updated Todo: ' + todo.id)),
+        // Return the product on an update
+        map(() => todo),
+        catchError(this.handleError)
+    );
+  }
+
+  deleteTodo(id: number | null): Observable<{}> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.todoUrl}/${id}`;
+
+    return this.http.delete<Todo>(url, { headers })
+      .pipe(
+        tap(data => console.log('ToDo deleted ' + id)),
+        catchError(this.handleError)
+      );
+  }
+
 
   private handleError(err: HttpErrorResponse): Observable<never> {
     let errorMessage = '';

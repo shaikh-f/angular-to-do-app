@@ -7,6 +7,7 @@ import { Table } from 'primeng/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ToDoEditComponent } from '../to-do-edit/to-do-edit.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-to-do-list',
@@ -78,7 +79,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     
     updateStatus(todo: Todo): void {
       this.subscriptions.push(this.todoService.updateStatus(todo).subscribe({
-        next: () => this.show(todo.complete),
+        next: () => this.show('toggled'),
         error: (error) => this.errMsg = error
       }));
       
@@ -97,27 +98,40 @@ export class ToDoListComponent implements OnInit, OnDestroy {
       const todo = {...this._initializeTodo(), ...this.todoForm.value};
       
       this.subscriptions.push(this.todoService.createTodo(todo).subscribe({
-        next: () => {
-          this.show(true);
+        next: (response) => {
+          this.show('add');
           this.todoForm.reset();
-          this.todos.push(todo);
+          this.todos.push(response);
         },
         error: (error) => this.errMsg = error
       }));
     }
 
-    show(state?: boolean) {
-      if (state) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Todo completed!' });
+    show(state?: string | HttpErrorResponse) {
+      if (typeof(state) ==  'string') {
+        this.handleMessage(state);
       } else {
-        this.messageService.add({ severity: 'info', summary: 'Update', detail: 'The todo has been successfully added.' });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${state?.error.message}.` });
+      }
+    }
+
+    handleMessage(state: string): void {
+      switch (state) {
+        case 'updated':
+        case 'deleted':
+        case 'toggled':
+          this.messageService.add({ severity: 'info', summary: 'Update', detail: `The todo has been successfully ${state}.` });
+          break;
+        case 'add':
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: `The todo has been successfully ${state}.` });
+          break;
       }
     }
 
     editTodo(todo: Todo) {
       this.ref = this.dialogService.open(ToDoEditComponent, {
         header: 'Edit the Todo',
-        width: '60%',
+        width: '70%',
         contentStyle: { overflow: 'auto' },
         baseZIndex: 10000,
         maximizable: true,
@@ -126,12 +140,14 @@ export class ToDoListComponent implements OnInit, OnDestroy {
         }
       });
 
-      this.subscriptions.push(this.ref.onClose.subscribe(
-        (response: string) => console.log(response)
-      ));
+      this.subscriptions.push(this.ref.onClose.subscribe((response: string | HttpErrorResponse) => {
+          if (response) {
+            this.show(response);
+          }
+      }));
 
       this.ref.onMaximize.subscribe((value) => {
           this.messageService.add({ severity: 'info', summary: 'Maximized', detail: `maximized: ${value.maximized}` });
       });
-  }
+    }
 }

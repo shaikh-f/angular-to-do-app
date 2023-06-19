@@ -1,33 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { Priority, Todo } from 'src/app/api/todo';
+import { Subscription } from 'rxjs';
+import { Todo } from 'src/app/api/todo';
+import { TodoService } from 'src/app/service/todo.service';
 
 @Component({
   selector: 'app-to-do-edit',
   templateUrl: './to-do-edit.component.html'
 })
-export class ToDoEditComponent implements OnInit{
+export class ToDoEditComponent implements OnInit, OnDestroy{
 
   todo!: Todo;
   editForm!: FormGroup;
-  priorities!: Priority[];
+  subscriptions: Subscription[] = [];
+  priorities!: string[];
   
   constructor(private ref: DynamicDialogRef,
               private config: DynamicDialogConfig,
-              private fBuilder: FormBuilder) {}
+              private fBuilder: FormBuilder,
+              private todoService: TodoService) {}
 
   
   ngOnInit(): void {
     // extract the todo
     this.todo = this.config.data.todo;
     
-    // construct priorities dropdown
+    // dropdown option values
     this.priorities = [
-      { name: "High", code: 'H' },
-      { name: "Medium", code: 'M' },
-      { name: "Low", code: 'L' }
+      "High",
+      "Medium",
+      "Low"
     ];
 
     // construct the form itself
@@ -36,9 +40,35 @@ export class ToDoEditComponent implements OnInit{
       priority: [null, [Validators.required]],
       description: ['', [Validators.required]]
     });
+
+    // set the form values
+    this.editForm.patchValue({
+      title: this.todo.title,
+      priority: this.priorities.find(priority => priority === this.todo.priority),
+      description: this.todo.description
+    });
   }
 
-  updateToDo() {
+  ngOnDestroy(): void {
+    // unsubscribe all subscriptions
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
+  updateTodo() {
+    // copy the changes
+    const newTodo = {...this.todo, ...this.editForm.value};
+
+    // make the PUT request
+    this.subscriptions.push(this.todoService.updateTodo(newTodo).subscribe({
+      next: () => this.ref.close('updated'),
+      error: (error) => this.ref.close(error)
+    }));
+  }
+
+  deleteTodo() {
+    this.subscriptions.push(this.todoService.deleteTodo(this.todo.id).subscribe({
+      next: () => this.ref.close('deleted'),
+      error: (error) => this.ref.close(error)
+    }));
+  }
 }

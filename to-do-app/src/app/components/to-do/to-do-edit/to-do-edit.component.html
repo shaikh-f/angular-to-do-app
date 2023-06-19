@@ -2,7 +2,9 @@
     <div class="col-12">
       <div class="xl:col-4" style="margin: auto;">
         <div class="card mb-0">
-          <form [formGroup]="editForm">
+          <form [formGroup]="editForm"
+                novalidate
+                (ngSubmit)="updateTodo()">
             <div class=" spacing-top spacing-bottom flex justify-content-between" style="width: 100%;">
                 <span class="p-float-label p-input-icon-left" style="flex-grow: 1;">
                   <i class="pi pi-check-square"></i>
@@ -18,7 +20,6 @@
                 <span class="p-float-label">
                     <p-dropdown formControlName="priority" 
                                 [options]="priorities"
-                                optionLabel="name"
                                 inputId="float-label"
                                 placeholder="Select Priority">
                     </p-dropdown>
@@ -40,8 +41,16 @@
             </div>
 
             <div class="spacing-bottom spacing-top justify-content-center" style="margin: auto;">
-              <p-button label="Delete" class="ml-2"></p-button>
-              <p-button label="Save" class="ml-2"></p-button>
+              <p-button label="Delete"
+                       class="ml-2"
+                       (onClick)="deleteTodo()">
+              </p-button>
+              <p-button label="Save"
+                        class="ml-2"
+                        type="submit"
+                        [disabled]="true"
+                        [disabled]="!editForm.valid || !editForm.dirty">
+              </p-button>
             </div>
           </form>
         </div>
