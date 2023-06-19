@@ -117,7 +117,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     editTodo(todo: Todo) {
       this.ref = this.dialogService.open(ToDoEditComponent, {
         header: 'Edit the Todo',
-        width: '70%',
+        width: '60%',
         contentStyle: { overflow: 'auto' },
         baseZIndex: 10000,
         maximizable: true,
@@ -126,7 +126,9 @@ export class ToDoListComponent implements OnInit, OnDestroy {
         }
       });
 
-      this.ref.onClose.subscribe();
+      this.subscriptions.push(this.ref.onClose.subscribe(
+        (response: string) => console.log(response)
+      ));
 
       this.ref.onMaximize.subscribe((value) => {
           this.messageService.add({ severity: 'info', summary: 'Maximized', detail: `maximized: ${value.maximized}` });

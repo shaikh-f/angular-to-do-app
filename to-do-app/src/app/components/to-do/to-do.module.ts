@@ -11,6 +11,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { StyleClassModule } from 'primeng/styleclass';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToDoRoutingModule } from './to-do-routing.module';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ToDoListComponent } from './to-do-list/to-do-list.component';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ToDoData } from './to-do-data';
@@ -31,10 +33,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     TableModule,
     ReactiveFormsModule,
     DynamicDialogModule,
+    DropdownModule,
     TagModule,
     ToastModule,
     ButtonModule,
     CheckboxModule,
+    InputTextareaModule,
+    
     StyleClassModule,
     InputTextModule,
     InMemoryWebApiModule.forRoot(ToDoData),

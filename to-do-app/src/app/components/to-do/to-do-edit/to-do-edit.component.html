@@ -1,22 +1,51 @@
 <div class="grid">
     <div class="col-12">
-        <div class="xl:col-6" style="margin: auto;">
-            <div class="card mb-0">
-                <form>
-                    <div class="flex justify-content-between" style="width: 100%;">
-                        <span class="p-float-label p-input-icon-left" style="flex-grow: 1;">
-                            <i class="pi pi-check-square"></i>
-                            <input type="text"
-                                    id="newTodo"
-                                    pInputText
-                                    style="width: 100%;"
-                            />
-                            <label for="newTodo">Add new Todo</label>
-                        </span>
-                        <p-button label="+ ADD" class="ml-2" type="submit"></p-button>
-                    </div>
-                </form>
+      <div class="xl:col-4" style="margin: auto;">
+        <div class="card mb-0">
+          <form [formGroup]="editForm">
+            <div class=" spacing-top spacing-bottom flex justify-content-between" style="width: 100%;">
+                <span class="p-float-label p-input-icon-left" style="flex-grow: 1;">
+                  <i class="pi pi-check-square"></i>
+                  <input type="text"
+                         id="todoTitle"
+                         pInputText
+                         class="form-control flex-grow"
+                         formControlName="title"
+                         style="width: 100%;"/>
+                  <label for="todoTitle">Title</label>
+                </span>
+              <div class="flex-grow ml-2">
+                <span class="p-float-label">
+                    <p-dropdown formControlName="priority" 
+                                [options]="priorities"
+                                optionLabel="name"
+                                inputId="float-label"
+                                placeholder="Select Priority">
+                    </p-dropdown>
+                    <label for="float-label">Select Priority</label>
+                </span>
+              </div>
             </div>
+
+            <div class=" spacing-top spacing-bottom flex justify-content-between" style="width: 100%;">
+                <span class="p-float-label" style="flex-grow: 1;">
+                    <textarea rows="5"
+                              style="width: 100%; box-sizing: border-box;"
+                              pInputTextarea
+                              formControlName="description"
+                              id="description">
+                </textarea>
+                    <label for="description">Description</label>
+                </span>
+            </div>
+
+            <div class="spacing-bottom spacing-top justify-content-center" style="margin: auto;">
+              <p-button label="Delete" class="ml-2"></p-button>
+              <p-button label="Save" class="ml-2"></p-button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
-</div>
+  </div>
+  
