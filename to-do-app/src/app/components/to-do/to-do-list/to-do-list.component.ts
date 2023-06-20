@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Todo } from 'src/app/api/todo';
 import { Subscription } from 'rxjs';
-import { TodoService } from 'src/app/service/todo.service';
+import { TodoService } from '../../../service/todo.service';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ToDoEditComponent } from '../to-do-edit/to-do-edit.component';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-to-do-list',
