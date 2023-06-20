@@ -5,7 +5,7 @@ import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { State } from 'src/app/api/state';
 import { Todo } from 'src/app/api/todo';
-import { TodoService } from 'src/app/service/todo.service';
+import { TodoService } from '../../../service/todo.service';
 
 @Component({
   selector: 'app-to-do-edit',

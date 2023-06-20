@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Todo } from 'src/app/api/todo';
+import { TodoService } from '../../../service/todo.service';
 import { Subscription, lastValueFrom } from 'rxjs';
-import { TodoService } from 'src/app/service/todo.service';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
