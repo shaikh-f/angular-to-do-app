@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
+import { State } from 'src/app/api/state';
 import { Todo } from 'src/app/api/todo';
 import { TodoService } from '../../../service/todo.service';
 
@@ -60,15 +61,15 @@ export class ToDoEditComponent implements OnInit, OnDestroy{
 
     // make the PUT request
     this.subscriptions.push(this.todoService.updateTodo(newTodo).subscribe({
-      next: () => this.ref.close('updated'),
-      error: (error) => this.ref.close(error.error.message)
+      next: () => this.ref.close(State.UPDATED),
+      error: (error) => this.ref.close([error, State.ERROR])
     }));
   }
 
   deleteTodo() {
     this.subscriptions.push(this.todoService.deleteTodo(this.todo.id).subscribe({
-      next: () => this.ref.close('deleted'),
-      error: (error) => this.ref.close(error.error.message)
+      next: () => this.ref.close(State.DELETED),
+      error: (error) => this.ref.close([error, State.ERROR])
     }));
   }
 }
