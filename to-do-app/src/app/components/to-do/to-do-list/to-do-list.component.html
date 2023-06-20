@@ -7,7 +7,6 @@
                       (ngSubmit)="addTodo()"
                       [formGroup]="todoForm">
                       <div class="flex justify-content-between" style="width: 100%;">
-                        <!-- <div class="flex items-center w-full"> -->
                         <span class="p-float-label p-input-icon-left" style="flex-grow: 1;">
                             <i class="pi pi-check-square"></i>
                             <input type="text"
@@ -26,7 +25,6 @@
                                   [title]="todoForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
                                   [disabled]="!todoForm.valid">
                         </p-button>
-                        <!-- </div> -->
                     </div>
                 </form>
             </div>
@@ -55,7 +53,9 @@
                             <label [ngClass]="{'completed': todo.complete}">{{ todo.title }}</label>
                         </td>
                         <td style="width: 35%; min-width: 8rem;">
-                            <p-tag [styleClass]="'priority ' + getPriorityClass(todo.priority)">{{ todo.priority | uppercase}}</p-tag>
+                            <p-tag *ngIf="todo.priority === 'High'" severity="danger" styleClass="priority">{{ todo.priority | uppercase}}</p-tag>
+                            <p-tag *ngIf="todo.priority === 'Medium'" severity="warning" styleClass="priority">{{ todo.priority | uppercase}}</p-tag>
+                            <p-tag *ngIf="todo.priority === 'Low'" severity="success" styleClass="priority">{{ todo.priority | uppercase}}</p-tag>
                         </td>
                         <td style="width: 15%;">
                             <p-button icon="pi pi-search"
