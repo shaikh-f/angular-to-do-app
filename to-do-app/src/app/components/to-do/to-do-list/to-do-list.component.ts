@@ -67,7 +67,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     }
   }
 
-  async updateStatus(todo: Todo) {
+  async updateStatus(todo: Todo): Promise<void> {
     const data = this.todoService.updateStatus(todo);
       
     try {
@@ -79,7 +79,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     }
   }
 
-  addTodo() {
+  addTodo(): void {
     // construct new todo
     const todo = {...this._initializeTodo(), ...this.todoForm.value};
 
@@ -97,7 +97,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     }));
   }
 
-  show(state: State) {
+  show(state: State): void {
     const stateMessages = {
       'updated': { severity: 'info', summary: 'Update', detail: 'The todo has been successfully updated.' },
       'deleted': { severity: 'warn', summary: 'Update', detail: 'The todo has been successfully deleted.' },

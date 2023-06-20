@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { State } from 'src/app/api/state';
+import { State } from '../../../api/state';
 import { Todo } from 'src/app/api/todo';
 import { TodoService } from '../../../service/todo.service';
 
