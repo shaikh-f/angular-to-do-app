@@ -47,8 +47,6 @@ export class TodoService {
     return this.http.put<Todo>(url, todo, { headers })
       .pipe(
         tap(() => console.log('Updated Todo: ' + todo.id)),
-        // Return the product on an update
-        map((data) => data),
         catchError(this.handleError)
     );
   }

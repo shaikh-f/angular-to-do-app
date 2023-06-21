@@ -42,13 +42,15 @@
 
             <div class="spacing-bottom spacing-top justify-content-center" style="margin: auto;">
               <p-button label="Delete"
-                       class="ml-2"
-                       (onClick)="deleteTodo()">
+                        id="deleteBtn"
+                        [disabled]="false"
+                        class="ml-2"
+                        (onClick)="deleteTodo()">
               </p-button>
               <p-button label="Save"
+                        id="saveBtn"
                         class="ml-2"
                         type="submit"
-                        [disabled]="true"
                         [disabled]="!editForm.valid || !editForm.dirty">
               </p-button>
             </div>
