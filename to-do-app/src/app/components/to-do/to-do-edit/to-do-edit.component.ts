@@ -38,7 +38,7 @@ export class ToDoEditComponent implements OnInit, OnDestroy{
     // construct the form itself
     this.editForm = this.fBuilder.group({
       title: ['', [Validators.required]],
-      priority: [null, [Validators.required]],
+      priority: [undefined, [Validators.required]],
       description: ['', [Validators.required]]
     });
 
